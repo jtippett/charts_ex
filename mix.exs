@@ -35,16 +35,16 @@ defmodule ChartsEx.MixProject do
 
   defp package do
     [
-      files: [
-        "lib",
-        "native/charts_ex/src",
-        "native/charts_ex/Cargo*",
-        "native/charts_ex/Cross.toml",
-        "checksum-*.exs",
-        "mix.exs",
-        "README.md",
-        "LICENSE"
-      ],
+      files:
+        [
+          "lib",
+          "native/charts_ex/src",
+          "native/charts_ex/Cargo*",
+          "native/charts_ex/Cross.toml",
+          "mix.exs",
+          "README.md",
+          "LICENSE"
+        ] ++ Path.wildcard("checksum-*.exs"),
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url}
     ]

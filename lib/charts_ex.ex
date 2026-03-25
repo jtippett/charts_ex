@@ -27,8 +27,7 @@ defmodule ChartsEx do
 
   ### Raw JSON
 
-      json = ~s({"type":"bar","title":{"text":"Downloads"},"x_axis":{"data":["Mon","Tue","Wed"]},"series_list":[{"name":"Hex","data":[120.0,200.0,150.0]}]})
-      ChartsEx.render(json)
+      ChartsEx.render(~s({"type":"bar","title_text":"Downloads","x_axis_data":["Mon","Tue"],"series_list":[{"name":"Hex","data":[120.0,200.0]}]}))
 
   """
 
@@ -54,7 +53,11 @@ defmodule ChartsEx do
   """
   @spec render(struct() | map() | String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def render(%mod{} = chart) do
-    chart |> mod.to_json() |> ChartsEx.Native.render()
+    if function_exported?(mod, :to_json, 1) do
+      chart |> mod.to_json() |> ChartsEx.Native.render()
+    else
+      {:error, "#{inspect(mod)} does not implement ChartsEx.Chart"}
+    end
   end
 
   def render(map) when is_map(map) do

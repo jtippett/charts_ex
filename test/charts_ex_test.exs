@@ -72,5 +72,11 @@ defmodule ChartsExTest do
     test "returns error for missing type in map" do
       assert {:error, _} = ChartsEx.render(%{width: 600})
     end
+
+    test "returns error for non-chart struct" do
+      assert {:error, msg} = ChartsEx.render(URI.parse("https://example.com"))
+      assert msg =~ "URI"
+      assert msg =~ "ChartsEx.Chart"
+    end
   end
 end
