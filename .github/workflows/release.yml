@@ -1,0 +1,51 @@
+name: Build precompiled NIFs
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build_release:
+    name: NIF ${{ matrix.nif }} - ${{ matrix.job.target }}
+    runs-on: ${{ matrix.job.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        nif: ["2.15", "2.16", "2.17"]
+        job:
+          - { target: aarch64-apple-darwin, os: macos-14 }
+          - { target: x86_64-apple-darwin, os: macos-13 }
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-latest, use-cross: true }
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-latest }
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-latest, use-cross: true }
+    env:
+      CHARTS_EX_BUILD: true
+      RUSTLER_NIF_VERSION: ${{ matrix.nif }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        if: ${{ !matrix.job.use-cross }}
+        with:
+          otp-version: "27.0"
+          elixir-version: "1.17.0"
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.job.target }}
+      - uses: cross-rs/cross-action@v1
+        if: ${{ matrix.job.use-cross }}
+        with:
+          command: ""
+      - run: |
+          if [ "${{ matrix.job.use-cross }}" = "true" ]; then
+            cd native/charts_ex && cross build --release --target=${{ matrix.job.target }}
+          else
+            cd native/charts_ex && cargo build --release --target=${{ matrix.job.target }}
+          fi
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            native/charts_ex/target/${{ matrix.job.target }}/release/libcharts_ex.*
