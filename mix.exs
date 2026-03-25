@@ -2,7 +2,7 @@ defmodule ChartsEx.MixProject do
   use Mix.Project
 
   @version "0.1.0"
-  @source_url "https://github.com/TODO/charts_ex"
+  @source_url "https://github.com/jtippett/charts_ex"
 
   def project do
     [

@@ -5,7 +5,7 @@ defmodule ChartsEx.Native do
     otp_app: :charts_ex,
     crate: "charts_ex",
     base_url:
-      "https://github.com/TODO/charts_ex/releases/download/v#{Mix.Project.config()[:version]}",
+      "https://github.com/jtippett/charts_ex/releases/download/v#{Mix.Project.config()[:version]}",
     force_build: System.get_env("CHARTS_EX_BUILD") in ["1", "true"],
     version: Mix.Project.config()[:version],
     nif_versions: ["2.17", "2.16", "2.15"],

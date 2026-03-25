@@ -1,0 +1,295 @@
+# ChartsEx Examples
+
+```elixir
+Mix.install([
+  {:charts_ex, path: "."},
+  {:kino, "~> 0.14"}
+])
+```
+
+## Bar Chart
+
+A dual-series bar chart with the Grafana theme:
+
+```elixir
+alias ChartsEx.BarChart
+
+svg =
+  BarChart.new()
+  |> BarChart.title("Quarterly Sales by Region")
+  |> BarChart.sub_title("FY 2025 - All figures in $k")
+  |> BarChart.theme(:grafana)
+  |> BarChart.width(700)
+  |> BarChart.height(420)
+  |> BarChart.x_axis(["Q1", "Q2", "Q3", "Q4"])
+  |> BarChart.add_series("North America", [312.0, 348.0, 295.0, 410.0])
+  |> BarChart.add_series("Europe", [228.0, 265.0, 241.0, 302.0])
+  |> BarChart.series_colors(["#5470C6", "#91CC75"])
+  |> BarChart.legend_align(:right)
+  |> BarChart.radius(4.0)
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Line Chart
+
+Smooth curves with area fill and mark lines:
+
+```elixir
+alias ChartsEx.LineChart
+
+svg =
+  LineChart.new()
+  |> LineChart.title("Server Response Times")
+  |> LineChart.sub_title("p50 and p99 latency in ms")
+  |> LineChart.theme(:grafana)
+  |> LineChart.width(700)
+  |> LineChart.height(400)
+  |> LineChart.smooth(true)
+  |> LineChart.fill(true)
+  |> LineChart.x_axis(["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "23:59"])
+  |> LineChart.add_series("p50", [12.0, 8.0, 35.0, 62.0, 48.0, 24.0, 14.0])
+  |> LineChart.add_series("p99", [45.0, 28.0, 120.0, 210.0, 165.0, 78.0, 52.0],
+    mark_lines: [%{category: "average"}],
+    mark_points: [%{category: "max"}]
+  )
+  |> LineChart.series_colors(["#73C0DE", "#EE6666"])
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Pie Chart (Donut)
+
+Browser market share as a donut chart:
+
+```elixir
+alias ChartsEx.PieChart
+
+svg =
+  PieChart.new()
+  |> PieChart.title("Browser Market Share")
+  |> PieChart.sub_title("Global - March 2025")
+  |> PieChart.theme(:westeros)
+  |> PieChart.width(500)
+  |> PieChart.height(400)
+  |> PieChart.inner_radius(80.0)
+  |> PieChart.radius(150.0)
+  |> PieChart.border_radius(4.0)
+  |> PieChart.add_series("Chrome", [64.7])
+  |> PieChart.add_series("Safari", [18.6])
+  |> PieChart.add_series("Firefox", [3.2])
+  |> PieChart.add_series("Edge", [5.3])
+  |> PieChart.add_series("Other", [8.2])
+  |> PieChart.series_colors(["#5470C6", "#91CC75", "#FAC858", "#EE6666", "#73C0DE"])
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Radar Chart
+
+Framework comparison across multiple dimensions:
+
+```elixir
+alias ChartsEx.RadarChart
+
+svg =
+  RadarChart.new()
+  |> RadarChart.title("Framework Comparison")
+  |> RadarChart.sub_title("Phoenix vs. Rails vs. Next.js")
+  |> RadarChart.theme(:vintage)
+  |> RadarChart.width(560)
+  |> RadarChart.height(460)
+  |> RadarChart.indicators([
+    %{name: "Performance", max: 100.0},
+    %{name: "Scalability", max: 100.0},
+    %{name: "Ecosystem", max: 100.0},
+    %{name: "Learning Curve", max: 100.0},
+    %{name: "Realtime", max: 100.0},
+    %{name: "Deployment", max: 100.0}
+  ])
+  |> RadarChart.add_series("Phoenix", [92.0, 95.0, 58.0, 55.0, 98.0, 72.0])
+  |> RadarChart.add_series("Rails", [65.0, 70.0, 90.0, 75.0, 50.0, 80.0])
+  |> RadarChart.add_series("Next.js", [78.0, 72.0, 95.0, 68.0, 65.0, 88.0])
+  |> RadarChart.series_colors(["#6C5CE7", "#E17055", "#00B894"])
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Horizontal Bar Chart
+
+```elixir
+alias ChartsEx.HorizontalBarChart
+
+svg =
+  HorizontalBarChart.new()
+  |> HorizontalBarChart.title("Top Programming Languages by Job Postings")
+  |> HorizontalBarChart.theme(:ant)
+  |> HorizontalBarChart.width(650)
+  |> HorizontalBarChart.height(400)
+  |> HorizontalBarChart.x_axis(["Elixir", "Go", "Rust", "TypeScript", "Python", "Java"])
+  |> HorizontalBarChart.add_series("Job Postings (thousands)", [
+    8.4, 22.1, 12.7, 58.3, 92.5, 74.0
+  ], label_show: true)
+  |> HorizontalBarChart.series_colors(["#5470C6"])
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Scatter Chart
+
+```elixir
+alias ChartsEx.ScatterChart
+
+svg =
+  ScatterChart.new()
+  |> ScatterChart.title("House Price vs. Square Footage")
+  |> ScatterChart.sub_title("Austin, TX - 2025 listings")
+  |> ScatterChart.theme(:walden)
+  |> ScatterChart.width(650)
+  |> ScatterChart.height(420)
+  |> ScatterChart.add_series("3-Bedroom", [
+    [1200.0, 285.0], [1450.0, 320.0], [1680.0, 375.0],
+    [1890.0, 410.0], [2100.0, 465.0], [2350.0, 520.0]
+  ])
+  |> ScatterChart.add_series("4-Bedroom", [
+    [1800.0, 420.0], [2050.0, 485.0], [2300.0, 540.0],
+    [2600.0, 610.0], [2850.0, 675.0], [3100.0, 740.0]
+  ])
+  |> ScatterChart.symbol_sizes([6.0, 8.0])
+  |> ScatterChart.series_colors(["#5470C6", "#EE6666"])
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Candlestick Chart
+
+```elixir
+alias ChartsEx.CandlestickChart
+
+svg =
+  CandlestickChart.new()
+  |> CandlestickChart.title("AAPL Stock Price")
+  |> CandlestickChart.sub_title("Weekly - Jan to Mar 2025")
+  |> CandlestickChart.theme(:dark)
+  |> CandlestickChart.width(750)
+  |> CandlestickChart.height(420)
+  |> CandlestickChart.up_color("#26A69A")
+  |> CandlestickChart.up_border_color("#26A69A")
+  |> CandlestickChart.down_color("#EF5350")
+  |> CandlestickChart.down_border_color("#EF5350")
+  |> CandlestickChart.x_axis([
+    "Jan 6", "Jan 13", "Jan 20", "Jan 27",
+    "Feb 3", "Feb 10", "Feb 17", "Feb 24",
+    "Mar 3", "Mar 10", "Mar 17", "Mar 24"
+  ])
+  |> CandlestickChart.add_series("AAPL", [
+    [243.0, 248.5, 240.1, 250.3],
+    [248.5, 252.0, 246.2, 254.7],
+    [252.0, 245.8, 243.5, 253.0],
+    [245.8, 249.2, 244.0, 251.5],
+    [249.2, 256.3, 248.0, 258.1],
+    [256.3, 261.0, 254.5, 263.8],
+    [261.0, 258.4, 255.2, 262.5],
+    [258.4, 264.7, 257.0, 266.3],
+    [264.7, 260.1, 258.3, 266.0],
+    [260.1, 268.5, 259.0, 270.2],
+    [268.5, 272.3, 266.8, 275.0],
+    [272.3, 270.8, 268.5, 274.1]
+  ])
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Heatmap Chart
+
+```elixir
+alias ChartsEx.HeatmapChart
+
+svg =
+  HeatmapChart.new()
+  |> HeatmapChart.title("Deploy Frequency by Day and Hour")
+  |> HeatmapChart.theme(:grafana)
+  |> HeatmapChart.width(700)
+  |> HeatmapChart.height(340)
+  |> HeatmapChart.x_axis(["Mon", "Tue", "Wed", "Thu", "Fri"])
+  |> HeatmapChart.y_axis(["9 AM", "11 AM", "1 PM", "3 PM", "5 PM"])
+  |> HeatmapChart.series(%{
+    data: [
+      [0, 0, 3],  [0, 1, 5],  [0, 2, 8],  [0, 3, 12], [0, 4, 4],
+      [1, 0, 7],  [1, 1, 11], [1, 2, 15], [1, 3, 9],  [1, 4, 2],
+      [2, 0, 10], [2, 1, 18], [2, 2, 22], [2, 3, 14], [2, 4, 6],
+      [3, 0, 5],  [3, 1, 8],  [3, 2, 19], [3, 3, 16], [3, 4, 7],
+      [4, 0, 2],  [4, 1, 6],  [4, 2, 13], [4, 3, 10], [4, 4, 1]
+    ],
+    min: 0,
+    max: 25,
+    min_color: "#E0F3F8",
+    max_color: "#0B3D91"
+  })
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Table Chart
+
+```elixir
+alias ChartsEx.TableChart
+
+svg =
+  TableChart.new()
+  |> TableChart.title("Q1 2025 - SaaS Metrics")
+  |> TableChart.theme(:light)
+  |> TableChart.width(680)
+  |> TableChart.height(300)
+  |> TableChart.data([
+    ["Metric", "January", "February", "March", "Trend"],
+    ["MRR", "$142,300", "$148,900", "$156,200", "+9.8%"],
+    ["Churn Rate", "2.1%", "1.8%", "1.6%", "-0.5pp"],
+    ["New Customers", "87", "104", "119", "+36.8%"],
+    ["NPS Score", "62", "65", "71", "+9pts"],
+    ["Avg. Deal Size", "$4,280", "$4,510", "$4,750", "+11.0%"]
+  ])
+  |> TableChart.spans([2.0, 1.0, 1.0, 1.0, 1.0])
+  |> TableChart.text_aligns([:left, :right, :right, :right, :right])
+  |> TableChart.header_background_color("#4A5568")
+  |> TableChart.header_font_color("#FFFFFF")
+  |> TableChart.body_background_colors(["#F7FAFC", "#EDF2F7"])
+  |> TableChart.border_color("#CBD5E0")
+  |> ChartsEx.render!()
+
+Kino.HTML.new(svg)
+```
+
+## Theme Gallery
+
+Render the same chart across all 9 themes:
+
+```elixir
+alias ChartsEx.BarChart
+
+charts =
+  for theme <- ChartsEx.Theme.list() do
+    svg =
+      BarChart.new()
+      |> BarChart.title("#{theme} theme")
+      |> BarChart.theme(theme)
+      |> BarChart.width(400)
+      |> BarChart.height(280)
+      |> BarChart.x_axis(["Jan", "Feb", "Mar", "Apr", "May"])
+      |> BarChart.add_series("Revenue", [42.0, 48.0, 53.0, 51.0, 60.0])
+      |> BarChart.add_series("Costs", [28.0, 32.0, 35.0, 41.0, 38.0])
+      |> ChartsEx.render!()
+
+    Kino.HTML.new(svg)
+  end
+
+Kino.Layout.grid(charts, columns: 3)
+```
