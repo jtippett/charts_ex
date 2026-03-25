@@ -57,7 +57,7 @@ defmodule ChartsEx.HeatmapChart do
   def x_axis(chart, labels), do: %{chart | x_axis_data: labels}
 
   @doc "Sets the chart margin as `%{left: _, top: _, right: _, bottom: _}`."
-  def margin(chart, m), do: %{chart | margin: m}
+  def margin(chart, m) when is_map(m), do: %{chart | margin: m}
 
   @doc "Sets the background color as a hex string."
   def background_color(chart, color), do: %{chart | background_color: color}

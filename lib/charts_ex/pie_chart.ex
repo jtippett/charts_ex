@@ -63,7 +63,7 @@ defmodule ChartsEx.PieChart do
   end
 
   @doc "Sets the chart margin as `%{left: _, top: _, right: _, bottom: _}`."
-  def margin(chart, m), do: %{chart | margin: m}
+  def margin(chart, m) when is_map(m), do: %{chart | margin: m}
 
   @doc "Sets series colors as a list of hex strings."
   def series_colors(chart, colors), do: %{chart | series_colors: colors}
@@ -72,7 +72,8 @@ defmodule ChartsEx.PieChart do
   def background_color(chart, color), do: %{chart | background_color: color}
 
   @doc "Sets the legend alignment. One of `:left`, `:center`, `:right`."
-  def legend_align(chart, align), do: %{chart | legend_align: align}
+  def legend_align(chart, align) when align in [:left, :center, :right],
+    do: %{chart | legend_align: align}
 
   @doc "Sets the legend margin."
   def legend_margin(chart, m), do: %{chart | legend_margin: m}

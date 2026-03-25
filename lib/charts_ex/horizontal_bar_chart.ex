@@ -72,7 +72,7 @@ defmodule ChartsEx.HorizontalBarChart do
   end
 
   @doc "Sets the chart margin as `%{left: _, top: _, right: _, bottom: _}`."
-  def margin(chart, m), do: %{chart | margin: m}
+  def margin(chart, m) when is_map(m), do: %{chart | margin: m}
 
   @doc "Sets y-axis configurations. Pass a list of config maps for dual y-axis."
   def y_axis_configs(chart, configs), do: %{chart | y_axis_configs: configs}
@@ -84,7 +84,8 @@ defmodule ChartsEx.HorizontalBarChart do
   def background_color(chart, color), do: %{chart | background_color: color}
 
   @doc "Sets the legend alignment. One of `:left`, `:center`, `:right`."
-  def legend_align(chart, align), do: %{chart | legend_align: align}
+  def legend_align(chart, align) when align in [:left, :center, :right],
+    do: %{chart | legend_align: align}
 
   @doc "Sets label position. One of `:inside`, `:top`, `:right`, `:bottom`, `:left`."
   def label_position(chart, pos), do: %{chart | series_label_position: pos}

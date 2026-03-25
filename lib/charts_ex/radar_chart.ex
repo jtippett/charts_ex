@@ -97,7 +97,7 @@ defmodule ChartsEx.RadarChart do
   end
 
   @doc "Sets the chart margin as `%{left: _, top: _, right: _, bottom: _}`."
-  def margin(chart, m), do: %{chart | margin: m}
+  def margin(chart, m) when is_map(m), do: %{chart | margin: m}
 
   @doc "Sets series colors as a list of hex strings."
   def series_colors(chart, colors), do: %{chart | series_colors: colors}
