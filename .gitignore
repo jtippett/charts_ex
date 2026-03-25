@@ -9,3 +9,4 @@ charts_ex-*.tar
 /tmp/
 native/charts_ex/target/
 .DS_Store
+.private-journal/
