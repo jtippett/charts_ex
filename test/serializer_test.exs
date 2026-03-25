@@ -49,4 +49,30 @@ defmodule ChartsEx.SerializerTest do
     assert [%{"name" => "A", "data" => [1.0, 2.0]}] = decoded["series_list"]
     assert %{"left" => 10} = decoded["margin"]
   end
+
+  test "to_json/2 preserves booleans instead of converting to strings" do
+    struct_map = %{
+      __struct__: SomeChart,
+      label_show: true,
+      hidden: false
+    }
+
+    json = Serializer.to_json(struct_map, "bar")
+    decoded = Jason.decode!(json)
+
+    assert decoded["label_show"] == true
+    assert decoded["hidden"] == false
+  end
+
+  test "to_json/2 preserves booleans in nested maps" do
+    struct_map = %{
+      __struct__: SomeChart,
+      series_list: [%{name: "A", data: [1.0], label_show: true}]
+    }
+
+    json = Serializer.to_json(struct_map, "bar")
+    decoded = Jason.decode!(json)
+
+    assert [%{"label_show" => true}] = decoded["series_list"]
+  end
 end

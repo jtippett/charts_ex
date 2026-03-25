@@ -18,6 +18,8 @@ defmodule ChartsEx.Serializer do
     |> Jason.encode!()
   end
 
+  defp encode_value(v) when is_boolean(v), do: v
+  defp encode_value(nil), do: nil
   defp encode_value(v) when is_atom(v), do: Atom.to_string(v)
   defp encode_value(v) when is_list(v), do: Enum.map(v, &encode_value/1)
   defp encode_value(%{__struct__: _} = v), do: v |> Map.from_struct() |> encode_value()
