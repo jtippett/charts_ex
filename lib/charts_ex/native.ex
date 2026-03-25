@@ -13,8 +13,7 @@ defmodule ChartsEx.Native do
       "aarch64-apple-darwin",
       "aarch64-unknown-linux-gnu",
       "x86_64-apple-darwin",
-      "x86_64-unknown-linux-gnu",
-      "x86_64-unknown-linux-musl"
+      "x86_64-unknown-linux-gnu"
     ]
 
   def render(_json), do: :erlang.nif_error(:nif_not_loaded)
