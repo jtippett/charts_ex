@@ -47,9 +47,9 @@ defmodule ChartsEx.Component do
       * `class` — optional CSS class for the wrapping div
       * `id` — optional DOM id for the wrapping div
     """
-    attr :config, :any, required: true
-    attr :class, :string, default: nil
-    attr :id, :string, default: nil
+    attr(:config, :any, required: true)
+    attr(:class, :string, default: nil)
+    attr(:id, :string, default: nil)
 
     def chart(assigns) do
       svg = ChartsEx.render!(assigns.config)

@@ -75,7 +75,9 @@ defmodule ChartsEx.HorizontalBarChartTest do
     end
 
     test "omits nil fields" do
-      json = HorizontalBarChart.new() |> HorizontalBarChart.title("X") |> HorizontalBarChart.to_json()
+      json =
+        HorizontalBarChart.new() |> HorizontalBarChart.title("X") |> HorizontalBarChart.to_json()
+
       decoded = Jason.decode!(json)
 
       assert decoded["title_text"] == "X"

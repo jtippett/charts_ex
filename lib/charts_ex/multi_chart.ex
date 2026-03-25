@@ -75,7 +75,9 @@ defmodule ChartsEx.MultiChart do
       |> then(fn m -> if multi.gap, do: Map.put(m, :gap, multi.gap), else: m end)
       |> then(fn m -> if multi.margin, do: Map.put(m, :margin, multi.margin), else: m end)
       |> then(fn m ->
-        if multi.background_color, do: Map.put(m, :background_color, multi.background_color), else: m
+        if multi.background_color,
+          do: Map.put(m, :background_color, multi.background_color),
+          else: m
       end)
 
     Jason.encode!(base)

@@ -71,7 +71,9 @@ defmodule ChartsEx.IntegrationTest do
                ChartsEx.ScatterChart.new()
                |> ChartsEx.ScatterChart.title("Scatter")
                |> ChartsEx.ScatterChart.add_series("Points", [
-                 [10.0, 8.0], [20.0, 15.0], [30.0, 22.0]
+                 [10.0, 8.0],
+                 [20.0, 15.0],
+                 [30.0, 22.0]
                ])
                |> ChartsEx.render()
 
@@ -111,8 +113,10 @@ defmodule ChartsEx.IntegrationTest do
                |> ChartsEx.HeatmapChart.y_axis(["X", "Y"])
                |> ChartsEx.HeatmapChart.series(%{
                  data: [[0, 0, 5], [0, 1, 10], [1, 0, 15], [1, 1, 20]],
-                 min: 0, max: 20,
-                 min_color: "#C6E48B", max_color: "#196127"
+                 min: 0,
+                 max: 20,
+                 min_color: "#C6E48B",
+                 max_color: "#196127"
                })
                |> ChartsEx.render()
 
@@ -134,13 +138,19 @@ defmodule ChartsEx.IntegrationTest do
     end
 
     test "multi chart" do
-      bar = ChartsEx.BarChart.new()
-            |> ChartsEx.BarChart.width(300) |> ChartsEx.BarChart.height(200)
-            |> ChartsEx.BarChart.x_axis(["A"]) |> ChartsEx.BarChart.add_series("S", [1.0])
+      bar =
+        ChartsEx.BarChart.new()
+        |> ChartsEx.BarChart.width(300)
+        |> ChartsEx.BarChart.height(200)
+        |> ChartsEx.BarChart.x_axis(["A"])
+        |> ChartsEx.BarChart.add_series("S", [1.0])
 
-      line = ChartsEx.LineChart.new()
-             |> ChartsEx.LineChart.width(300) |> ChartsEx.LineChart.height(200)
-             |> ChartsEx.LineChart.x_axis(["A"]) |> ChartsEx.LineChart.add_series("S", [1.0])
+      line =
+        ChartsEx.LineChart.new()
+        |> ChartsEx.LineChart.width(300)
+        |> ChartsEx.LineChart.height(200)
+        |> ChartsEx.LineChart.x_axis(["A"])
+        |> ChartsEx.LineChart.add_series("S", [1.0])
 
       assert {:ok, svg} =
                ChartsEx.MultiChart.new()

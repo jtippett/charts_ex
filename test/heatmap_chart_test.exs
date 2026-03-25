@@ -100,8 +100,12 @@ defmodule ChartsEx.HeatmapChartTest do
                |> HeatmapChart.y_axis(["Morning", "Afternoon"])
                |> HeatmapChart.series(%{
                  data: [
-                   [0, 0, 5], [0, 1, 10], [1, 0, 15],
-                   [1, 1, 20], [2, 0, 25], [2, 1, 30]
+                   [0, 0, 5],
+                   [0, 1, 10],
+                   [1, 0, 15],
+                   [1, 1, 20],
+                   [2, 0, 25],
+                   [2, 1, 30]
                  ],
                  min: 0,
                  max: 30,

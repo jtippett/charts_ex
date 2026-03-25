@@ -77,7 +77,10 @@ defmodule ChartsEx.RadarChartTest do
 
       assert decoded["type"] == "radar"
       assert decoded["title_text"] == "Test"
-      assert [%{"name" => "A", "max" => 100.0}, %{"name" => "B", "max" => 100.0}] = decoded["indicators"]
+
+      assert [%{"name" => "A", "max" => 100.0}, %{"name" => "B", "max" => 100.0}] =
+               decoded["indicators"]
+
       assert [%{"name" => "S1", "data" => [80.0, 70.0]}] = decoded["series_list"]
     end
 

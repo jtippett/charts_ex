@@ -75,7 +75,9 @@ defmodule ChartsEx.PieChartTest do
 
       assert decoded["type"] == "pie"
       assert decoded["title_text"] == "Test"
-      assert [%{"name" => "A", "data" => [50.0]}, %{"name" => "B", "data" => [30.0]}] = decoded["series_list"]
+
+      assert [%{"name" => "A", "data" => [50.0]}, %{"name" => "B", "data" => [30.0]}] =
+               decoded["series_list"]
     end
 
     test "omits nil fields" do
