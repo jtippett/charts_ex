@@ -1,0 +1,21 @@
+# TODO
+
+- [ ] 图表中的所有属性均可配置(颜色、宽度、类型、margin等)，定义完整的style struct
+- [x] 支持图表的font-weight，每个label都使用其为默认值
+- [x] fontdue与fontdb中对于bold等类型字体名称不一致(light, bold等的处理)
+- [x] series label format的方法支持更多类型，{a}：系列名。{c}：数据值。{d}：百分比。{t}：千分位格式化。
+- [x] 填充曲线图中文本输出顺序调整
+- [x] table支持定义每一个格的背景色、字体颜色
+- [x] 支持scatter
+- [x] 支持多图合并处理
+- [x] 支持空值处理(中间值为空值)
+- [x] 支持candlestick
+- [x] 平均值线、最大最小值标记
+- [x] 柱状图指定单个背景色
+- [x] json是否兼容null的处理
+- [x] label inside bar chart
+- [x] series label format的自定义
+- [ ] fontdue与fontdb是否可统一，现两个字库重复加载内存占用较大
+- [x] table中文本计算宽度，自动换行
+- [x] 饼图支持普通形式
+- [x] 饼图需要支持最少尺寸(少于1px的场景)

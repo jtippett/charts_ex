@@ -1,0 +1,11 @@
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+erl_crash.dump
+*.ez
+charts_ex-*.tar
+/tmp/
+native/charts_ex/target/
+.DS_Store
