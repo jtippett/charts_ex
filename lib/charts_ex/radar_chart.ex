@@ -86,6 +86,8 @@ defmodule ChartsEx.RadarChart do
   @doc """
   Adds a data series to the chart.
 
+  Data is a list of numeric values, one per indicator.
+
   ## Options
 
     * `:label_show` - whether to show value labels (boolean)

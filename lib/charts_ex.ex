@@ -27,7 +27,8 @@ defmodule ChartsEx do
 
   ### Raw JSON
 
-      ChartsEx.render(~s({"type": "bar", ...}))
+      json = ~s({"type":"bar","title":{"text":"Downloads"},"x_axis":{"data":["Mon","Tue","Wed"]},"series_list":[{"name":"Hex","data":[120.0,200.0,150.0]}]})
+      ChartsEx.render(json)
 
   """
 

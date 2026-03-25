@@ -105,6 +105,8 @@ defmodule ChartsEx.BarChart do
   @doc """
   Adds a data series to the chart.
 
+  Data is a list of numeric values, one per x-axis category.
+
   ## Options
 
     * `:label_show` - whether to show value labels (boolean)
@@ -139,6 +141,10 @@ defmodule ChartsEx.BarChart do
 
   @doc "Sets the legend margin."
   def legend_margin(chart, m) when is_map(m), do: %{chart | legend_margin: m}
+
+  @doc "Sets the legend style. One of `:normal`, `:rect`, `:round_rect`, `:circle`."
+  def legend_category(chart, cat) when cat in [:normal, :rect, :round_rect, :circle],
+    do: %{chart | legend_category: cat}
 
   @doc "Sets the bar corner radius."
   def radius(chart, r), do: %{chart | radius: r}

@@ -31,12 +31,25 @@ defmodule ChartsEx.TableChart do
     :cell_styles
   ]
 
+  @doc "Creates a new empty table chart."
   def new, do: %__MODULE__{}
+
+  @doc "Sets the chart title."
   def title(chart, text), do: %{chart | title_text: text}
+
+  @doc "Sets the chart subtitle."
   def sub_title(chart, text), do: %{chart | sub_title_text: text}
+
+  @doc "Sets the theme. See `ChartsEx.Theme.list/0` for options."
   def theme(chart, name), do: %{chart | theme: ChartsEx.Theme.validate!(name)}
+
+  @doc "Sets the chart width in pixels."
   def width(chart, w), do: %{chart | width: w}
+
+  @doc "Sets the chart height in pixels."
   def height(chart, h), do: %{chart | height: h}
+
+  @doc "Sets the background color as a hex string."
   def background_color(chart, color), do: %{chart | background_color: color}
 
   @doc "Sets table data as a 2D list. First row is the header."

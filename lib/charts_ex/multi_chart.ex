@@ -35,6 +35,7 @@ defmodule ChartsEx.MultiChart do
     ChartsEx.HeatmapChart => "heatmap"
   }
 
+  @doc "Creates a new empty multi-chart container."
   def new, do: %__MODULE__{}
 
   @doc """

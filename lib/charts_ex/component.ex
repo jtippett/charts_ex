@@ -8,6 +8,30 @@ defmodule ChartsEx.Component do
       <ChartsEx.Component.chart config={@chart} class="mx-auto max-w-2xl" id="revenue" />
 
   The chart is rendered as inline SVG wrapped in a `<div>`.
+
+  ## LiveView example with assigns
+
+      defmodule MyAppWeb.DashboardLive do
+        use MyAppWeb, :live_view
+
+        def mount(_params, _session, socket) do
+          chart =
+            ChartsEx.BarChart.new()
+            |> ChartsEx.BarChart.title("Weekly Revenue")
+            |> ChartsEx.BarChart.x_axis(["Mon", "Tue", "Wed", "Thu", "Fri"])
+            |> ChartsEx.BarChart.add_series("Revenue", [500.0, 800.0, 650.0, 900.0, 750.0])
+
+          {:ok, assign(socket, :chart, chart)}
+        end
+
+        def render(assigns) do
+          ~H\"\"\"
+          <div class="p-4">
+            <ChartsEx.Component.chart config={@chart} class="mx-auto max-w-2xl" id="revenue-chart" />
+          </div>
+          \"\"\"
+        end
+      end
   """
 
   if Code.ensure_loaded?(Phoenix.Component) do

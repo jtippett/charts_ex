@@ -84,7 +84,7 @@ defmodule ChartsEx.PieChart do
   @doc "Sets the inner radius to create a donut chart. Use 0.0 for solid pie."
   def inner_radius(chart, r), do: %{chart | inner_radius: r}
 
-  @doc "Enables rose/nightingale chart mode."
+  @doc "Enables rose (nightingale) mode where slice radius varies by value. Pass `true` to enable."
   def rose_type(chart, val), do: %{chart | rose_type: val}
 
   @doc "Sets the border radius for pie segments."
