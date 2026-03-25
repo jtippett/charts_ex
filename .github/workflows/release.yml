@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  build_release:
+  build_nifs:
     name: NIF ${{ matrix.nif }} - ${{ matrix.job.target }}
     runs-on: ${{ matrix.job.os }}
     strategy:
@@ -17,35 +17,44 @@ jobs:
       matrix:
         nif: ["2.15", "2.16", "2.17"]
         job:
-          - { target: aarch64-apple-darwin, os: macos-14 }
+          - { target: aarch64-apple-darwin, os: macos-latest }
           - { target: x86_64-apple-darwin, os: macos-13 }
-          - { target: aarch64-unknown-linux-gnu, os: ubuntu-latest, use-cross: true }
-          - { target: x86_64-unknown-linux-gnu, os: ubuntu-latest }
-          - { target: x86_64-unknown-linux-musl, os: ubuntu-latest, use-cross: true }
-    env:
-      CHARTS_EX_BUILD: true
-      RUSTLER_NIF_VERSION: ${{ matrix.nif }}
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04, use-cross: true }
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-22.04 }
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-22.04, use-cross: true }
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        if: ${{ !matrix.job.use-cross }}
-        with:
-          otp-version: "27.0"
-          elixir-version: "1.17.0"
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.job.target }}
-      - uses: cross-rs/cross-action@v1
-        if: ${{ matrix.job.use-cross }}
+      - name: Extract project version
+        run: echo "PROJECT_VERSION=$(sed -n 's/^  @version "\(.*\)"/\1/p' mix.exs | head -n1)" >> $GITHUB_ENV
+      - name: Build NIF
+        id: build-crate
+        uses: philss/rustler-precompiled-action@v1.1.4
         with:
-          command: ""
-      - run: |
-          if [ "${{ matrix.job.use-cross }}" = "true" ]; then
-            cd native/charts_ex && cross build --release --target=${{ matrix.job.target }}
-          else
-            cd native/charts_ex && cargo build --release --target=${{ matrix.job.target }}
-          fi
-      - uses: softprops/action-gh-release@v2
+          project-name: charts_ex
+          project-version: ${{ env.PROJECT_VERSION }}
+          target: ${{ matrix.job.target }}
+          nif-version: ${{ matrix.nif }}
+          use-cross: ${{ matrix.job.use-cross }}
+          project-dir: "native/charts_ex"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: |
-            native/charts_ex/target/${{ matrix.job.target }}/release/libcharts_ex.*
+          name: ${{ steps.build-crate.outputs.file-name }}
+          path: ${{ steps.build-crate.outputs.file-path }}
+
+  publish_release:
+    name: Publish GitHub Release
+    needs: build_nifs
+    runs-on: ubuntu-22.04
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*.tar.gz
