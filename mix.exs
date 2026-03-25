@@ -28,6 +28,7 @@ defmodule ChartsEx.MixProject do
       {:rustler, "~> 0.37", optional: true},
       {:rustler_precompiled, "~> 0.8"},
       {:jason, "~> 1.4"},
+      {:phoenix_live_view, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
